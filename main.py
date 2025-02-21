@@ -1,18 +1,8 @@
 from fastapi import FastAPI, HTTPException
-from fastapi.middleware.cors import CORSMiddleware  # Import CORS Middleware
 from pydantic import BaseModel
 from typing import List
 
 app = FastAPI()
-
-# Allow frontend (React) to access the backend
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # Allow all origins (change to frontend URL in production)
-    allow_credentials=True,
-    allow_methods=["*"],  # Allow all methods (GET, POST, etc.)
-    allow_headers=["*"],  # Allow all headers
-)
 
 class RequestData(BaseModel):
     data: List[str]
@@ -20,9 +10,10 @@ class RequestData(BaseModel):
 @app.post("/bfhl")
 def process_data(request: RequestData):
     try:
-        user_id = "john_doe_17091999"
+        user_id = "john_doe_17091999"  # Replace with actual user info if needed
         email = "john@xyz.com"
         roll_number = "ABCD123"
+
         numbers = [x for x in request.data if x.isdigit()]
         alphabets = [x for x in request.data if x.isalpha()]
         highest_alphabet = [max(alphabets, key=str.lower)] if alphabets else []
@@ -37,6 +28,7 @@ def process_data(request: RequestData):
             "highest_alphabet": highest_alphabet
         }
         return response
+
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
