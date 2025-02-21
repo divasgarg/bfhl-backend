@@ -9,28 +9,23 @@ class RequestData(BaseModel):
 
 @app.post("/bfhl")
 def process_data(request: RequestData):
-    try:
-        user_id = "john_doe_17091999"  # Replace with actual user info if needed
-        email = "john@xyz.com"
-        roll_number = "ABCD123"
+    user_id = "john_doe_17091999"
+    email = "john@xyz.com"
+    roll_number = "ABCD123"
 
-        numbers = [x for x in request.data if x.isdigit()]
-        alphabets = [x for x in request.data if x.isalpha()]
-        highest_alphabet = [max(alphabets, key=str.lower)] if alphabets else []
+    numbers = [x for x in request.data if x.isdigit()]
+    alphabets = [x for x in request.data if x.isalpha()]
+    highest_alphabet = [max(alphabets, key=str.lower)] if alphabets else []
 
-        response = {
-            "is_success": True,
-            "user_id": user_id,
-            "email": email,
-            "roll_number": roll_number,
-            "numbers": numbers,
-            "alphabets": alphabets,
-            "highest_alphabet": highest_alphabet
-        }
-        return response
-
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+    return {
+        "is_success": True,
+        "user_id": user_id,
+        "email": email,
+        "roll_number": roll_number,
+        "numbers": numbers,
+        "alphabets": alphabets,
+        "highest_alphabet": highest_alphabet
+    }
 
 @app.get("/bfhl")
 def get_operation_code():
